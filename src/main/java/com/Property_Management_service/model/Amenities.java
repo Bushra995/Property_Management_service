@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -19,7 +21,8 @@ public class Amenities {
     private Long amId;
 
     @ManyToOne
-    @JoinColumn(name = "flat_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "flat_id",referencedColumnName = "id", nullable = false)
     private FlatInfo flatInfo;
 
     private String name;
