@@ -84,11 +84,6 @@ import java.util.List;
     @Column(name = "prop_type")
     private String propType;
 
-    @OneToMany(mappedBy = "flatInfo", cascade = CascadeType.ALL)
-    private List<Amenities> amenities;
-
-    @OneToMany(mappedBy = "flatInfo", cascade = CascadeType.ALL)
-    private List<Images> images;
 
     }
 

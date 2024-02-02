@@ -1,5 +1,6 @@
 package com.Property_Management_service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import  jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -19,6 +20,7 @@ public class Amenities {
     private Long amId;
 
     @ManyToOne
+    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE )
     @JoinColumn(name = "flat_id",referencedColumnName = "id", nullable = false)
 

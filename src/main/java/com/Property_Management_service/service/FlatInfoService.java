@@ -24,7 +24,7 @@ public interface FlatInfoService {
 
     ResponseEntity<ErrorResponse> deleteFlatInfo (Long id);
 
-    List<FlatInfo> getFlatInfoByLocation(String Location);
+//    List<FlatInfo> getFlatInfoByLocation(String Location);
 
     List<Images> getImagesByFlatId(Long flat_id);
 

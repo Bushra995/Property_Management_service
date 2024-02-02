@@ -66,11 +66,11 @@ public class FlatInfoController {
 
     }
 
-    @GetMapping("/by-location")
-    public ResponseEntity<List<FlatInfo>> getFlatInfoByLocation(@RequestParam String location) {
-        List<FlatInfo> flatInfoList = flatInfoService.getFlatInfoByLocation(location);
-        return ResponseEntity.ok(flatInfoList);
-    }
+//    @GetMapping("/by-location")
+//    public ResponseEntity<List<FlatInfo>> getFlatInfoByLocation(@RequestParam String location) {
+//        List<FlatInfo> flatInfoList = flatInfoService.getFlatInfoByLocation(location);
+//        return ResponseEntity.ok(flatInfoList);
+//    }
 
     @GetMapping("/{flatId}/images")
     public ResponseEntity<List<Images>> getImagesByFlatId(@PathVariable Long flatId) {

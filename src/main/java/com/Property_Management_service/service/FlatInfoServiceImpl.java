@@ -80,10 +80,10 @@ public class FlatInfoServiceImpl implements FlatInfoService {
         }
     }
 
-    @Override
-    public List<FlatInfo> getFlatInfoByLocation(String location) {
-        return flatInfoRepository.findAllFlatsByLocation(location);
-    }
+//    @Override
+//    public List<FlatInfo> getFlatInfoByLocation(String location) {
+//        return flatInfoRepository.findAllFlatsByLocation(location);
+//    }
 
     @Override
     public List<Images> getImagesByFlatId(Long flat_id) {

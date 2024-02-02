@@ -1,5 +1,6 @@
 package com.Property_Management_service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Images {
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "flat_id", referencedColumnName = "id" ,nullable = false)
+    @JsonIgnore
     private FlatInfo flatInfo;
 
     @Column(name = "image_address")

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ImageRepository  extends JpaRepository<Images, Long> {
 
-    @Query("SELECT r FROM images r WHERE r.flatInfo.id = ?1")
+    @Query("SELECT r FROM Images r WHERE r.flatInfo.id = ?1")
     List<Images> findAllImagesByFlatId( Long flatinfo);
 
 
