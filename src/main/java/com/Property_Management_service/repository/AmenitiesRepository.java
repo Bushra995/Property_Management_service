@@ -10,5 +10,5 @@ import java.util.List;
 public interface AmenitiesRepository  extends JpaRepository<Amenities, Long> {
 
     @Query("SELECT r FROM amenities r WHERE r.flatInfo.id = ?1")
-    List<Images> findAllAmenitiesByFlatId(Long flatinfo);
+    List<Amenities> findAllAmenitiesByFlatId(Long flatinfo);
 }
