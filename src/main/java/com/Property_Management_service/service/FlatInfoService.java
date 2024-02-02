@@ -2,6 +2,7 @@ package com.Property_Management_service.service;
 
 
 import com.Property_Management_service.dto.FlatInfoDto;
+import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
 import com.Property_Management_service.model.Images;
@@ -21,7 +22,7 @@ public interface FlatInfoService {
 
     FlatInfo updateFlatInfo(FlatInfoDto flatInfoDto);
 
-    ResponseEntity<String> deleteFlatInfo (Long id);
+    ResponseEntity<ErrorResponse> deleteFlatInfo (Long id);
 
     List<FlatInfo> getFlatInfoByLocation(String Location);
 

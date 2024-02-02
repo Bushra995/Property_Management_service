@@ -3,9 +3,10 @@ package com.Property_Management_service.repository;
 import com.Property_Management_service.model.FlatInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface FlatInfoRepository extends JpaRepository<FlatInfo, Long> {
 
     @Query("SELECT f FROM flat_info f LIMIT 50")

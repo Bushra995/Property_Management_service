@@ -1,6 +1,7 @@
 package com.Property_Management_service.service;
 
 import com.Property_Management_service.dto.FlatInfoDto;
+import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
 import com.Property_Management_service.model.Images;
@@ -9,10 +10,12 @@ import com.Property_Management_service.repository.FlatInfoRepository;
 import com.Property_Management_service.repository.ImageRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FlatInfoServiceImpl implements FlatInfoService {
@@ -28,15 +31,22 @@ public class FlatInfoServiceImpl implements FlatInfoService {
 
     @Override
     public FlatInfo addFlatInfo(FlatInfoDto flatInfoDto) {
-        FlatInfo flatInfo = new FlatInfo();
-        BeanUtils.copyProperties(flatInfoDto, flatInfo);
-        return flatInfoRepository.save(flatInfo);
+
+        Optional<FlatInfo> existingflatinfo = this.flatInfoRepository.findById(flatInfoDto.getId());
+        if(existingflatinfo==null) {
+            FlatInfo flatInfo = new FlatInfo();
+            BeanUtils.copyProperties(flatInfoDto, flatInfo);
+            return flatInfoRepository.save(flatInfo);
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
     public FlatInfo getFlatInfoById(Long id) {
-        return flatInfoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("FlatInfo", "id", id));
+
+        return flatInfoRepository.getById(id);
     }
 
     @Override
@@ -46,16 +56,28 @@ public class FlatInfoServiceImpl implements FlatInfoService {
 
     @Override
     public FlatInfo updateFlatInfo(FlatInfoDto flatInfoDto) {
-        FlatInfo existingFlatInfo = getFlatInfoById(flatInfoDto.getId());
-        BeanUtils.copyProperties(flatInfoDto, existingFlatInfo, "id");
+        FlatInfo existingFlatInfo = flatInfoRepository.getById(flatInfoDto.getId());
+        if(existingFlatInfo!=null){
+        BeanUtils.copyProperties(flatInfoDto, existingFlatInfo);
         return flatInfoRepository.save(existingFlatInfo);
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public ResponseEntity<String> deleteFlatInfo(Long id) {
+    public ResponseEntity<ErrorResponse> deleteFlatInfo(Long id) {
         FlatInfo flatInfo = getFlatInfoById(id);
+        if(flatInfo!=null){
         flatInfoRepository.delete(flatInfo);
-        return ResponseEntity.ok("FlatInfo with id " + id + " deleted successfully");
+        ErrorResponse SuccessResponse = new ErrorResponse("FlatInfo with id " + id + "  deleted successfully", HttpStatus.OK.value());
+        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse);
+        }
+        else {
+            ErrorResponse errorResponse = new ErrorResponse("FlatInfo with id " + id + " not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
     }
 
     @Override
@@ -73,8 +95,5 @@ public class FlatInfoServiceImpl implements FlatInfoService {
         return amenitiesRepository.findAllAmenitiesByFlatId(flat_Id);
     }
 
-    @Override
-    public List<FlatInfo> getFlatsByAmenitiesName(String amenitiesName) {
-        return flatInfoRepository.findByAmenitiesName(amenitiesName);
-    }
+
 }

@@ -3,7 +3,9 @@ package com.Property_Management_service.dto;
 
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.Images;
+import lombok.Getter;
 import lombok.*;
+
 
 import java.util.List;
 

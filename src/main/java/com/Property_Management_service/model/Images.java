@@ -18,12 +18,15 @@ public class Images {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id")
     private Long imageId;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "flat_id", referencedColumnName = "id" ,nullable = false)
     private FlatInfo flatInfo;
+
+    @Column(name = "image_address")
     private String imageAddress;
 
 }
