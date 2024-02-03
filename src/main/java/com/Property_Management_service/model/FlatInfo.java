@@ -6,9 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-    @Entity
+@Entity
     @Getter
     @Setter
     @AllArgsConstructor
@@ -88,7 +90,7 @@ import java.util.List;
         private List<Amenities> amenities;
 
         @OneToMany(mappedBy = "flatInfo", cascade = CascadeType.ALL)
-        private List<Images> images;
+        private Set<Images> images = new HashSet<>();
 
     }
 

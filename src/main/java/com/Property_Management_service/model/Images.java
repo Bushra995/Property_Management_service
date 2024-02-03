@@ -29,6 +29,10 @@ public class Images {
     private FlatInfo flatInfo;
 
     @Column(name = "image_address")
-    private String imageAddress;
+    private String imageName;
+
+    @Lob
+    @Column(name = "image_data" , length = 50000000)
+    private byte[] imageData;
 
 }

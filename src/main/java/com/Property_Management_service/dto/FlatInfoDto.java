@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.*;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,5 +42,5 @@ public class FlatInfoDto {
     private String propType;
 
     private List<Amenities> amenities;
-    private List<Images> images;
+    private Set<Images> images = new HashSet<>();
 }

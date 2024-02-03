@@ -1,6 +1,7 @@
 package com.Property_Management_service.controller;
 
 import com.Property_Management_service.dto.FlatInfoDto;
+import com.Property_Management_service.dto.FlatInfoResponseDto;
 import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
@@ -9,8 +10,11 @@ import com.Property_Management_service.service.FlatInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/flat-info")
@@ -23,17 +27,30 @@ public class FlatInfoController {
         this.flatInfoService = flatInfoService;
     }
 
+//    @PostMapping("/add")
+//    public ResponseEntity<FlatInfo> addFlatInfo(@RequestBody FlatInfoDto flatInfoDto) {
+//        FlatInfo addedFlatInfo = flatInfoService.addFlatInfo(flatInfoDto);
+//        if (addedFlatInfo != null) {
+//            return ResponseEntity.ok(addedFlatInfo);
+//        } else {
+//            return ResponseEntity.badRequest().build();
+//        }
+//    }
+
     @PostMapping("/add")
-    public ResponseEntity<FlatInfo> addFlatInfo(@RequestBody FlatInfoDto flatInfoDto) {
-        FlatInfo addedFlatInfo = flatInfoService.addFlatInfo(flatInfoDto);
-        if (addedFlatInfo != null) {
-            return ResponseEntity.ok(addedFlatInfo);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<FlatInfo> addFlatInfo(@ModelAttribute @RequestBody FlatInfoDto flatInfoDto,
+                                                @RequestParam("images") Set<MultipartFile> imageFiles) {
+        FlatInfo addedFlatInfo = flatInfoService.addFlatInfo(flatInfoDto, imageFiles);
+
+        return ResponseEntity.ok(addedFlatInfo);
     }
 
-
+//  for  testing
+   /* @PostMapping("/add1")
+    public ResponseEntity<Images> addFlatInfo(@RequestParam("images") Set<MultipartFile> imageFiles) throws IOException {
+        Images addedFlatInfo = flatInfoService.addimg( imageFiles);
+        return (ResponseEntity<Images>) imageFiles;
+    }*/
     @GetMapping("/get/{id}")
     public ResponseEntity<FlatInfo> getFlatInfoById(@PathVariable Long id) {
         FlatInfo flatInfo = flatInfoService.getFlatInfoById(id);
@@ -49,6 +66,13 @@ public class FlatInfoController {
         List<FlatInfo> flatInfoList = flatInfoService.getFlatInfoLimitFifty(null);
         return ResponseEntity.ok(flatInfoList);
     }
+
+        @GetMapping("/paged")
+        public ResponseEntity<FlatInfoResponseDto> getFlatInfoPaged(@RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "20") int pageSize) {
+            FlatInfoResponseDto flatInfoResponse = flatInfoService.getFlatInfoPaged(page, pageSize);
+            return ResponseEntity.ok(flatInfoResponse);
+        }
 
     @PutMapping("/update")
     public ResponseEntity<FlatInfo> updateFlatInfo(@RequestBody FlatInfoDto flatInfoDto) {

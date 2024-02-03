@@ -22,7 +22,7 @@ public class Amenities {
     @ManyToOne
     @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE )
-    @JoinColumn(name = "flat_id",referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "flat_id",referencedColumnName = "id")
 
     private FlatInfo flatInfo;
 
