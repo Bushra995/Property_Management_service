@@ -1,6 +1,7 @@
 package com.Property_Management_service.controller;
 
 import com.Property_Management_service.dto.FlatInfoDto;
+import com.Property_Management_service.dto.FlatInfoResponseDto;
 import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
@@ -49,6 +50,13 @@ public class FlatInfoController {
         List<FlatInfo> flatInfoList = flatInfoService.getFlatInfoLimitFifty(null);
         return ResponseEntity.ok(flatInfoList);
     }
+
+        @GetMapping("/paged")
+        public ResponseEntity<FlatInfoResponseDto> getFlatInfoPaged(@RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "20") int pageSize) {
+            FlatInfoResponseDto flatInfoResponse = flatInfoService.getFlatInfoPaged(page, pageSize);
+            return ResponseEntity.ok(flatInfoResponse);
+        }
 
     @PutMapping("/update")
     public ResponseEntity<FlatInfo> updateFlatInfo(@RequestBody FlatInfoDto flatInfoDto) {

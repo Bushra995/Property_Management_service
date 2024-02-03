@@ -1,6 +1,7 @@
 package com.Property_Management_service.service;
 
 import com.Property_Management_service.dto.FlatInfoDto;
+import com.Property_Management_service.dto.FlatInfoResponseDto;
 import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
@@ -10,6 +11,9 @@ import com.Property_Management_service.repository.FlatInfoRepository;
 import com.Property_Management_service.repository.ImageRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -51,6 +55,17 @@ public class FlatInfoServiceImpl implements FlatInfoService {
     @Override
     public List<FlatInfo> getFlatInfoLimitFifty(FlatInfoDto flatInfoDto) {
         return flatInfoRepository.findAll().subList(0, Math.min(50, flatInfoRepository.findAll().size()));
+    }
+
+    @Override
+    public FlatInfoResponseDto getFlatInfoPaged(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<FlatInfo> flatInfoPage = flatInfoRepository.findAll(pageable);
+
+        List<FlatInfo> flatInfos = flatInfoPage.getContent();
+        boolean moreRecords = flatInfoPage.hasNext();
+
+        return new FlatInfoResponseDto(flatInfos, moreRecords);
     }
 
     @Override

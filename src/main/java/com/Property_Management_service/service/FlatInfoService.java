@@ -2,6 +2,7 @@ package com.Property_Management_service.service;
 
 
 import com.Property_Management_service.dto.FlatInfoDto;
+import com.Property_Management_service.dto.FlatInfoResponseDto;
 import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
@@ -32,7 +33,7 @@ public interface FlatInfoService {
 
     List<Amenities> getAmenitiesByFlatId(Long flat_Id);
 
-
+    FlatInfoResponseDto getFlatInfoPaged(int page, int pageSize);
 
 
 
