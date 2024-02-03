@@ -15,6 +15,15 @@ public interface FlatInfoRepository extends JpaRepository<FlatInfo, Long> {
 
     List<FlatInfo> findAllByLocation(String location);
 
+    @Query("SELECT f FROM FlatInfo f WHERE " +
+            "LOWER(f.flatTitle) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(f.location) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(f.type) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(f.manualAddress) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(f.propType) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    List<FlatInfo> searchAllStringProperties(String searchTerm);
+
+
 
 //    @Query("SELECT DISTINCT f FROM FlatInfo f JOIN f.Amenities a WHERE a.name = :amenitiesName")
 //    List<FlatInfo> findByAmenitiesName(@Param("amenitiesName") String amenitiesName);

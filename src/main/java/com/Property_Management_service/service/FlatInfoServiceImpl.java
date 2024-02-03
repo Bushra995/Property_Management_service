@@ -94,5 +94,8 @@ public class FlatInfoServiceImpl implements FlatInfoService {
         return amenitiesRepository.findAllAmenitiesByFlatId(flat_Id);
     }
 
+    public List<FlatInfo> searchAllStringProperties(String searchTerm) {
+        return flatInfoRepository.searchAllStringProperties(searchTerm);
+    }
 
 }

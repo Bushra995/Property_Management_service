@@ -5,7 +5,6 @@ import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
 import com.Property_Management_service.model.Images;
-import com.Property_Management_service.service.FlatInfoService;
 import com.Property_Management_service.service.FlatInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,11 +67,6 @@ public class FlatInfoController {
 
     }
 
-//    @GetMapping("/by-location")
-//    public ResponseEntity<List<FlatInfo>> getFlatInfoByLocation(@RequestParam String location) {
-//        List<FlatInfo> flatInfoList = flatInfoService.getFlatInfoByLocation(location);
-//        return ResponseEntity.ok(flatInfoList);
-//    }
 
     @GetMapping("/{flatId}/images")
     public ResponseEntity<List<Images>> getImagesByFlatId(@PathVariable Long flatId) {
@@ -84,5 +78,11 @@ public class FlatInfoController {
     public ResponseEntity<List<Amenities>> getAmenitiesByFlatId(@PathVariable Long flatId) {
         List<Amenities> amenitiesList = flatInfoService.getAmenitiesByFlatId(flatId);
         return ResponseEntity.ok(amenitiesList);
+    }
+
+    @GetMapping("/search/{searchTerm}")
+    public ResponseEntity<List<FlatInfo>> searchAllStringProperties(@PathVariable String searchTerm) {
+        List<FlatInfo> searchResults = flatInfoService.searchAllStringProperties(searchTerm);
+        return ResponseEntity.ok(searchResults);
     }
 }

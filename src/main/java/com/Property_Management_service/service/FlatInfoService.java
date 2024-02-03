@@ -26,9 +26,17 @@ public interface FlatInfoService {
 
 //    List<FlatInfo> getFlatInfoByLocation(String Location);
 
+
+    //list of images in a flat amd list of amentties in flat
     List<Images> getImagesByFlatId(Long flat_id);
 
     List<Amenities> getAmenitiesByFlatId(Long flat_Id);
+
+
+
+
+
+
 
 
 
