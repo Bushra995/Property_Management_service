@@ -105,8 +105,10 @@ public class FlatInfoController {
     }
 
     @GetMapping("/search/{searchTerm}")
-    public ResponseEntity<List<FlatInfo>> searchAllStringProperties(@PathVariable String searchTerm) {
-        List<FlatInfo> searchResults = flatInfoService.searchAllStringProperties(searchTerm);
-        return ResponseEntity.ok(searchResults);
+    public ResponseEntity<FlatInfoResponseDto> searchAllStringProperties(@PathVariable String searchTerm , @RequestParam(defaultValue = "0") int page,    @RequestParam(defaultValue = "20") int pageSize){
+
+                FlatInfoResponseDto flatInfoSearchResponse =   flatInfoService.searchFlatInfoPaged(searchTerm, page, pageSize);
+        //List<FlatInfo> searchResults = flatInfoService.searchAllStringProperties(searchTerm);
+        return ResponseEntity.ok(flatInfoSearchResponse);
     }
 }

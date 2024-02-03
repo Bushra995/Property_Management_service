@@ -69,7 +69,7 @@ public class FlatInfoServiceImpl implements FlatInfoService {
         List<Images> savedImageList = imageRepository.saveAll(imageset1);
         return  new HashSet<>(savedImageList);
     }*/
-    @Override
+
     public FlatInfo addFlatInfo(FlatInfoDto flatInfoDto, Set<MultipartFile> imageFiles) {
         FlatInfo flatInfo = new FlatInfo();
         BeanUtils.copyProperties(flatInfoDto, flatInfo);
@@ -193,8 +193,20 @@ public class FlatInfoServiceImpl implements FlatInfoService {
         return amenitiesRepository.findAllAmenitiesByFlatId(flat_Id);
     }
 
-    public List<FlatInfo> searchAllStringProperties(String searchTerm) {
-        return flatInfoRepository.searchAllStringProperties(searchTerm);
+//    public List<FlatInfo> searchAllStringProperties(String searchTerm) {
+//        return flatInfoRepository.searchAllStringProperties(searchTerm);
+//    }
+
+    public FlatInfoResponseDto searchFlatInfoPaged(String searchTerm , int page , int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+
+        Page<FlatInfo> flatInfoPage = flatInfoRepository.searchAllStringPropertiesPageble(searchTerm,pageable);
+
+      List<FlatInfo> flatInfos = flatInfoPage.getContent();
+
+      boolean moreRecords = flatInfoPage.hasNext();
+      return  new FlatInfoResponseDto(flatInfos , moreRecords);
+
     }
 
 }
