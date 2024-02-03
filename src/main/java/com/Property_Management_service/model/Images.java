@@ -24,7 +24,7 @@ public class Images {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "flat_id", referencedColumnName = "id" ,nullable = false)
+    @JoinColumn(name = "flat_id", referencedColumnName = "id")
     @JsonIgnore
     private FlatInfo flatInfo;
 
