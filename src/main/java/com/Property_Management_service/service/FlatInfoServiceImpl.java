@@ -32,21 +32,20 @@ public class FlatInfoServiceImpl implements FlatInfoService {
     @Override
     public FlatInfo addFlatInfo(FlatInfoDto flatInfoDto) {
 
-        Optional<FlatInfo> existingflatinfo = this.flatInfoRepository.findById(flatInfoDto.getId());
-        if(existingflatinfo==null) {
-            FlatInfo flatInfo = new FlatInfo();
-            BeanUtils.copyProperties(flatInfoDto, flatInfo);
-            return flatInfoRepository.save(flatInfo);
+                FlatInfo flatInfo = new FlatInfo();
+                BeanUtils.copyProperties(flatInfoDto, flatInfo);
+                return flatInfoRepository.save(flatInfo);
+       }
+
+    @Override
+    public FlatInfo getFlatInfoById(Long id) {
+        Optional<FlatInfo>  flatinfoPresent = flatInfoRepository.findById(id);
+        if(flatinfoPresent.isPresent()){
+            return flatinfoPresent.get();
         }
         else {
             return null;
         }
-    }
-
-    @Override
-    public FlatInfo getFlatInfoById(Long id) {
-
-        return flatInfoRepository.getById(id);
     }
 
     @Override
@@ -56,10 +55,10 @@ public class FlatInfoServiceImpl implements FlatInfoService {
 
     @Override
     public FlatInfo updateFlatInfo(FlatInfoDto flatInfoDto) {
-        FlatInfo existingFlatInfo = flatInfoRepository.getById(flatInfoDto.getId());
-        if(existingFlatInfo!=null){
-        BeanUtils.copyProperties(flatInfoDto, existingFlatInfo);
-        return flatInfoRepository.save(existingFlatInfo);
+       Optional<FlatInfo> existingFlatInfo = flatInfoRepository.findById(flatInfoDto.getId());
+        if(existingFlatInfo.isPresent()){
+        BeanUtils.copyProperties(flatInfoDto, existingFlatInfo.get());
+        return flatInfoRepository.save(existingFlatInfo.get());
         }
         else {
             return null;
@@ -68,9 +67,12 @@ public class FlatInfoServiceImpl implements FlatInfoService {
 
     @Override
     public ResponseEntity<ErrorResponse> deleteFlatInfo(Long id) {
-        FlatInfo flatInfo = getFlatInfoById(id);
-        if(flatInfo!=null){
-        flatInfoRepository.delete(flatInfo);
+
+        Optional<FlatInfo> existingFlatInfo = this.flatInfoRepository.findById(id);
+
+        if(existingFlatInfo.isPresent()){
+
+        flatInfoRepository.delete(existingFlatInfo.get());
         ErrorResponse SuccessResponse = new ErrorResponse("FlatInfo with id " + id + "  deleted successfully", HttpStatus.OK.value());
         return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse);
         }
@@ -80,10 +82,7 @@ public class FlatInfoServiceImpl implements FlatInfoService {
         }
     }
 
-//    @Override
-//    public List<FlatInfo> getFlatInfoByLocation(String location) {
-//        return flatInfoRepository.findAllFlatsByLocation(location);
-//    }
+
 
     @Override
     public List<Images> getImagesByFlatId(Long flat_id) {

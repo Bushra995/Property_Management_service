@@ -17,10 +17,10 @@ import java.util.List;
 @RequestMapping("/flat-info")
 public class FlatInfoController {
 
-    private final FlatInfoService flatInfoService;
+    private final FlatInfoServiceImpl flatInfoService;
 
     @Autowired
-    public FlatInfoController(FlatInfoService flatInfoService) {
+    public FlatInfoController(FlatInfoServiceImpl flatInfoService) {
         this.flatInfoService = flatInfoService;
     }
 
@@ -33,6 +33,7 @@ public class FlatInfoController {
             return ResponseEntity.badRequest().build();
         }
     }
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity<FlatInfo> getFlatInfoById(@PathVariable Long id) {
@@ -58,9 +59,10 @@ public class FlatInfoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("deleteFlat/{id}")
     public ResponseEntity<ErrorResponse> deleteFlatInfo(@PathVariable Long id) {
         return flatInfoService.deleteFlatInfo(id);
 
