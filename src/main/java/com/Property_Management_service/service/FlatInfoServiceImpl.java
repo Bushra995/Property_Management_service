@@ -193,9 +193,7 @@ public class FlatInfoServiceImpl implements FlatInfoService {
         return amenitiesRepository.findAllAmenitiesByFlatId(flat_Id);
     }
 
-//    public List<FlatInfo> searchAllStringProperties(String searchTerm) {
-//        return flatInfoRepository.searchAllStringProperties(searchTerm);
-//    }
+
 
     public FlatInfoResponseDto searchFlatInfoPaged(String searchTerm , int page , int pageSize){
         Pageable pageable = PageRequest.of(page,pageSize);
@@ -208,5 +206,19 @@ public class FlatInfoServiceImpl implements FlatInfoService {
       return  new FlatInfoResponseDto(flatInfos , moreRecords);
 
     }
+
+
+    public  FlatInfoResponseDto getFlatsByAmenitiesName(String amentitesName , int page , int pageSize){
+
+        Pageable pageable = PageRequest.of(page,pageSize);
+        Page<FlatInfo> flatInfoPage = flatInfoRepository.findByAmenitiesName(amentitesName,pageable);
+        List<FlatInfo> flatInfos = flatInfoPage.getContent();
+
+        boolean moreRecords = flatInfoPage.hasNext();
+        return  new FlatInfoResponseDto(flatInfos , moreRecords);
+
+    }
+
+
 
 }

@@ -45,7 +45,7 @@ public class FlatInfoController {
         return ResponseEntity.ok(addedFlatInfo);
     }
 
-//  for  testing
+    //  for  testing
    /* @PostMapping("/add1")
     public ResponseEntity<Images> addFlatInfo(@RequestParam("images") Set<MultipartFile> imageFiles) throws IOException {
         Images addedFlatInfo = flatInfoService.addimg( imageFiles);
@@ -67,12 +67,12 @@ public class FlatInfoController {
         return ResponseEntity.ok(flatInfoList);
     }
 
-        @GetMapping("/paged")
-        public ResponseEntity<FlatInfoResponseDto> getFlatInfoPaged(@RequestParam(defaultValue = "0") int page,
-                                                                    @RequestParam(defaultValue = "20") int pageSize) {
-            FlatInfoResponseDto flatInfoResponse = flatInfoService.getFlatInfoPaged(page, pageSize);
-            return ResponseEntity.ok(flatInfoResponse);
-        }
+    @GetMapping("/paged")
+    public ResponseEntity<FlatInfoResponseDto> getFlatInfoPaged(@RequestParam(defaultValue = "0") int page,
+                                                                @RequestParam(defaultValue = "20") int pageSize) {
+        FlatInfoResponseDto flatInfoResponse = flatInfoService.getFlatInfoPaged(page, pageSize);
+        return ResponseEntity.ok(flatInfoResponse);
+    }
 
     @PutMapping("/update")
     public ResponseEntity<FlatInfo> updateFlatInfo(@RequestBody FlatInfoDto flatInfoDto) {
@@ -105,10 +105,19 @@ public class FlatInfoController {
     }
 
     @GetMapping("/search/{searchTerm}")
-    public ResponseEntity<FlatInfoResponseDto> searchAllStringProperties(@PathVariable String searchTerm , @RequestParam(defaultValue = "0") int page,    @RequestParam(defaultValue = "20") int pageSize){
+    public ResponseEntity<FlatInfoResponseDto> searchAllStringProperties(@PathVariable String searchTerm, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int pageSize) {
 
-                FlatInfoResponseDto flatInfoSearchResponse =   flatInfoService.searchFlatInfoPaged(searchTerm, page, pageSize);
+        FlatInfoResponseDto flatInfoSearchResponse = flatInfoService.searchFlatInfoPaged(searchTerm, page, pageSize);
         //List<FlatInfo> searchResults = flatInfoService.searchAllStringProperties(searchTerm);
         return ResponseEntity.ok(flatInfoSearchResponse);
     }
+
+    @GetMapping("/getByAmentities/{amentitiesname}")
+    public ResponseEntity<FlatInfoResponseDto> getAllFlatByAmentityName(@PathVariable String amentitiesname, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int pageSize) {
+
+        FlatInfoResponseDto flatInfoSearchResponse = flatInfoService.getFlatsByAmenitiesName(amentitiesname, page, pageSize);
+        //List<FlatInfo> searchResults = flatInfoService.searchAllStringProperties(searchTerm);
+        return ResponseEntity.ok(flatInfoSearchResponse);
+    }
+
 }
