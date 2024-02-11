@@ -17,7 +17,8 @@ import java.util.Set;
 @Service
 public interface FlatInfoService {
 
-    FlatInfo addFlatInfo(FlatInfoDto flatInfoDto, Set<MultipartFile> imageFiles);
+    FlatInfo addFlatInfo(FlatInfoDto flatInfoDto);
+    FlatInfo addFlatInfoWithAll(FlatInfoDto flatInfoDto, Set<MultipartFile> imageFiles);
 
     FlatInfo getFlatInfoById(Long id);
 
@@ -28,7 +29,6 @@ public interface FlatInfoService {
     ResponseEntity<ErrorResponse> deleteFlatInfo (Long id);
 
 //    List<FlatInfo> getFlatInfoByLocation(String Location);
-
 
     //list of images in a flat amd list of amentties in flat
     List<Images> getImagesByFlatId(Long flat_id);

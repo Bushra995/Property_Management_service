@@ -1,15 +1,17 @@
 package com.Property_Management_service.service;
 
-import com.Property_Management_service.dto.AmenitiesDto;
+
 import com.Property_Management_service.dto.FlatInfoDto;
 import com.Property_Management_service.dto.FlatInfoResponseDto;
 import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
 import com.Property_Management_service.model.Images;
+import com.Property_Management_service.model.Testimages;
 import com.Property_Management_service.repository.AmenitiesRepository;
 import com.Property_Management_service.repository.FlatInfoRepository;
 import com.Property_Management_service.repository.ImageRepository;
+import com.Property_Management_service.repository.TestimagesRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,10 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.*;
 
 @Service
@@ -36,41 +38,30 @@ public class FlatInfoServiceImpl implements FlatInfoService {
     @Autowired
     private ImageRepository imageRepository;
 
-//    @Override
-//    public FlatInfo addFlatInfo(FlatInfoDto flatInfoDto) {
-//
-//                FlatInfo flatInfo = new FlatInfo();
-//                BeanUtils.copyProperties(flatInfoDto, flatInfo);
-//                return flatInfoRepository.save(flatInfo);
-//       }
+    @Autowired
+    private TestimagesRepository testimagesRepository;
 
-    //for testing purpose
-   /* public Images addimg( Set<MultipartFile> imagefiles) throws IOException {
+    @Override
+    public FlatInfo addFlatInfo(FlatInfoDto flatInfoDto) {
 
-        Set<Images> imagesSet = uploadimg(imagefiles);
-        return null;
+                FlatInfo flatInfo = new FlatInfo();
+                BeanUtils.copyProperties(flatInfoDto, flatInfo);
+                return flatInfoRepository.save(flatInfo);
+       }
 
-    }
-
-
-    private Set<Images> uploadimg (Set<MultipartFile> imageFiles) throws IOException {
-        Set<Images> imageset1 = new HashSet<>();
-        for (MultipartFile file :imageFiles){
-            Images images = new Images();
+    public void saveImages(List<MultipartFile> imageFiles) {
+        for (MultipartFile file : imageFiles) {
             try {
-                images.setImageName(file.getOriginalFilename());
-                images.setImageData(file.getBytes());
+                Testimages testImage = new Testimages();
+                testImage.setImageDataaa(file.getBytes());
+                testimagesRepository.save(testImage);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            catch (IOException eq){
-                throw new RuntimeException(eq);
-            }
-            imageset1.add(images);
         }
-        List<Images> savedImageList = imageRepository.saveAll(imageset1);
-        return  new HashSet<>(savedImageList);
-    }*/
-
-    public FlatInfo addFlatInfo(FlatInfoDto flatInfoDto, Set<MultipartFile> imageFiles) {
+    }
+    @Transactional
+    public FlatInfo addFlatInfoWithAll(FlatInfoDto flatInfoDto, Set<MultipartFile> imageFiles) {
         FlatInfo flatInfo = new FlatInfo();
         BeanUtils.copyProperties(flatInfoDto, flatInfo);
         flatInfo = flatInfoRepository.save(flatInfo);

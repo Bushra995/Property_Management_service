@@ -6,6 +6,7 @@ import com.Property_Management_service.exception.ErrorResponse;
 import com.Property_Management_service.model.Amenities;
 import com.Property_Management_service.model.FlatInfo;
 import com.Property_Management_service.model.Images;
+import com.Property_Management_service.model.Testimages;
 import com.Property_Management_service.service.FlatInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,30 +28,35 @@ public class FlatInfoController {
         this.flatInfoService = flatInfoService;
     }
 
-//    @PostMapping("/add")
-//    public ResponseEntity<FlatInfo> addFlatInfo(@RequestBody FlatInfoDto flatInfoDto) {
-//        FlatInfo addedFlatInfo = flatInfoService.addFlatInfo(flatInfoDto);
-//        if (addedFlatInfo != null) {
-//            return ResponseEntity.ok(addedFlatInfo);
-//        } else {
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
-
     @PostMapping("/add")
-    public ResponseEntity<FlatInfo> addFlatInfo(@ModelAttribute @RequestBody FlatInfoDto flatInfoDto,
-                                                @RequestParam("images") Set<MultipartFile> imageFiles) {
-        FlatInfo addedFlatInfo = flatInfoService.addFlatInfo(flatInfoDto, imageFiles);
+    public ResponseEntity<FlatInfo> addFlatInfo(@RequestBody FlatInfoDto flatInfoDto) {
+        FlatInfo addedFlatInfo = flatInfoService.addFlatInfo(flatInfoDto);
+        if (addedFlatInfo != null) {
+            return ResponseEntity.ok(addedFlatInfo);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/add-flat")
+    public ResponseEntity<FlatInfo> addFlatInfowithalldetails(@ModelAttribute @RequestPart FlatInfoDto flatInfoDto,
+                                                @RequestParam("imagess") Set<MultipartFile> imageFiles) {
+        FlatInfo addedFlatInfo = flatInfoService.addFlatInfoWithAll(flatInfoDto, imageFiles);
 
         return ResponseEntity.ok(addedFlatInfo);
     }
 
-    //  for  testing
-   /* @PostMapping("/add1")
-    public ResponseEntity<Images> addFlatInfo(@RequestParam("images") Set<MultipartFile> imageFiles) throws IOException {
-        Images addedFlatInfo = flatInfoService.addimg( imageFiles);
-        return (ResponseEntity<Images>) imageFiles;
-    }*/
+
+    @PostMapping("/uploadimage")
+    public ResponseEntity<String> uploadImages(@RequestParam("files") List<MultipartFile> files) {
+        try {
+            flatInfoService.saveImages(files);
+            return ResponseEntity.ok("Images uploaded successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error uploading images");
+        }
+    }
     @GetMapping("/get/{id}")
     public ResponseEntity<FlatInfo> getFlatInfoById(@PathVariable Long id) {
         FlatInfo flatInfo = flatInfoService.getFlatInfoById(id);
