@@ -1,11 +1,11 @@
 package com.Property_Management_service.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import  jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import jakarta.annotation.Nonnull;
 @Entity
 @Getter
 @Setter
@@ -16,12 +16,17 @@ public class Amenities {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "amen_id")
     private Long amId;
 
     @ManyToOne
-    @JoinColumn(name = "flat_id", nullable = false)
+    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE )
+    @JoinColumn(name = "flat_id",referencedColumnName = "id")
+
     private FlatInfo flatInfo;
 
+    @Column(name="name")
     private String name;
 
 }
